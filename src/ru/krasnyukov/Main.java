@@ -1,9 +1,9 @@
 package ru.krasnyukov;
 
-import java.lang.instrument.Instrumentation;
-import java.security.Signature;
+import java.util.HashSet;
 import java.util.Random;
 import java.util.Scanner;
+import java.util.Set;
 
 public class Main {
 
@@ -13,18 +13,31 @@ public class Main {
         int[] arr = new int[20];
         int numberOfElementInArr = 8;
 
+        arr[0] = -7;
+        arr[1] = 7;
+        arr[2] = -7;
+        arr[3] = 7;
+        arr[4] = 1;
+        arr[5] = 4;
+        arr[6] = 2;
+        arr[7] = 1;
+        
+
         System.out.println("Изначальный массив");
         Random random = new Random();
-        for(int i = 0; i < numberOfElementInArr; i++) {
-            arr[i] = random.nextInt(-10, 10);
-            System.out.print(arr[i] + " ");
-        }
+//        for(int i = 0; i < numberOfElementInArr; i++) {
+//            arr[i] = random.nextInt(-10, 10);
+//            System.out.print(arr[i] + " ");
+//        }
 
         MergeSort(numberOfElementInArr, arr);
         System.out.println("\nСортированный массив");
         for(int i = 0; i < numberOfElementInArr; i++) {
             System.out.print(arr[i] + " ");
         }
+
+        System.out.println("\nкол-во повторяющщихся элементов " + search(numberOfElementInArr, arr));
+
 
         do {
             System.out.println("\nВведите позицию элемента для поиска");
@@ -47,6 +60,21 @@ public class Main {
             System.out.print(arr[i] + " ");
         }
 
+        System.out.println("\nкол-во повторяющщихся элементов " + search(numberOfElementInArr, arr));
+
+    }
+
+    public static int search(int n, int[] A) {
+        Set<Integer> uniqueValue = new HashSet<>();
+        for (int i = 0; i < n; i++) {
+            for(int j = 0; j < n; j++) {
+                if ((i != j) && (A[i] == A[j])) {
+                    uniqueValue.add(A[i]);
+                    break;
+                }
+            }
+        }
+        return uniqueValue.size();
     }
 
     public static int[] MergeSort(int n, int[] A) {
@@ -109,9 +137,8 @@ public class Main {
                 A[s] = B[s];
             }
         }
-        System.out.println("Сравнений - " + numberOfCompare);
-        System.out.println("Перестановок - " + numberOfReshuffle);
-        System.out.println("Сложность - " + n * Math.log(n));
+        System.out.println("\nСравнений - " + numberOfCompare);
+        System.out.println("\nПерестановок - " + numberOfReshuffle);
         return A;
     }
 }
